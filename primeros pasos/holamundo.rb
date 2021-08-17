@@ -15,3 +15,17 @@ var_boolean = false
 # concatenar variables
 
 texto = "#{var_texto} #{var_num} , o #{var_dec}"
+
+puts texto
+
+puts var_boolean
+
+b= [1.23456,"José",2021,2022] #Array
+
+puts b.class
+puts b.length
+
+puts b[0]
+puts b[1]
+puts b[2]
+
