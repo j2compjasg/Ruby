@@ -22,3 +22,8 @@ end
 
 puts (suma(entero1,entero2))
 
+def nada
+    puts "Soy la Funcion Texto y no hago nada más que imprimir este texto"
+end
+
+puts nada 
