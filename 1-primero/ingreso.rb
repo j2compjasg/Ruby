@@ -3,9 +3,9 @@ salir = false
 while salir == false
     puts "ingrese el límite para el ciclo"
     str = " "
-    str = gets
+    str = gets.chomp
     limite = str.to_i
-#    puts limite
+    puts limite
     i = 0
     while i <= limite
         puts i
