@@ -8,7 +8,7 @@ puts titulo3
 
 require 'docx'
 
-doc = docx::document.open('prueba.docx')
-doc.paragraphs.each.do
+doc = Docx::Document.open('prueba.docx')
+doc.paragraphs.each do |lectura| 
     puts lectura
 end
