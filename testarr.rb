@@ -12,3 +12,5 @@ for el in arr
         print "#{el} "
     end
 end
+
+arr.each { |ind| print ind }
