@@ -15,6 +15,7 @@ end
 puts "ingresa un numero"
 str = gets.chomp
 num1 = str.to_i
+
 puts "ingresa otro numero"
 str = gets.chomp
 num2 = str.to_i
