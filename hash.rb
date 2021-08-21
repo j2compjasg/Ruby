@@ -10,6 +10,8 @@ puts cliente[1].keys
 puts cliente[2].values
 
 
+
+
 #puts cliente.has_key? "Nombre"
 
 #puts cliente.has_key? "RUT"
