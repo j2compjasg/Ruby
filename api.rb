@@ -39,8 +39,8 @@ end
 
 puts str
 
-doc = Docx::Document.new('text.docx')
+doc = Docx::Document.open('test.docx')
 
-doc.insert_text (str)
+doc.bookmarks['book1'].insert_after(str)
 
 doc.save('Nuevo.docx')
