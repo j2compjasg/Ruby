@@ -9,15 +9,12 @@ puts cliente[1].keys
 
 puts cliente[2].values
 
+puts cliente[1].has_key? "Nombre"
 
+puts cliente[2].has_key? "RUT"
 
+puts cliente[3].has_value? "Juan"
 
-#puts cliente.has_key? "Nombre"
+puts cliente[0].has_value? "pepito"
 
-#puts cliente.has_key? "RUT"
-
-#puts cliente.has_value? "Juan"
-
-#puts cliente.has_value? "pepito"
-
-#puts cliente["ApePat"]
+puts cliente[3]{"ApePat"}.values
