@@ -16,31 +16,38 @@ url = 'https://mindicador.cl/api'
 
 response = RestClient.get(url)
 
+puts 'CONECTANDO A API '
+puts '-----------------'
+
+
 cuerpo = JSON.parse(response)
 
+puts 'API descargada completamente'
+puts '-----------------------------'
 str = ""
 #puts cuerpo.length
 
 #pp cuerpo
 #valor = cuerpo
 #puts cuerpo
-doc = Docx::Document.open('test.docx')
+#doc = Docx::Document.open('test.docx')
 
-str += "\n"
-str += "INDICADORES ECONOMICOS" + "\n"
-str += "" + "\n"
+puts 
+puts "INDICADORES ECONOMICOS" 
+puts 
 str = ""
-str = cuerpo["fecha"].slice(0..9).to_s
-puts str
-doc.bookmarks['fecha'].insert_after(str)
+puts cuerpo["fecha"].slice(0..9).to_s
+puts
+
+#doc.bookmarks['fecha'].insert_after(str)
 
 cuerpo.each do |key,valor|
     if key != "version" && key != "autor" && key != "fecha"
-        str += cuerpo[key]["nombre"] + " : " + cuerpo[key]["valor"].to_s + "\n"
+        puts cuerpo[key]["nombre"] + " : " + cuerpo[key]["valor"].to_s
     end
 end
 
-puts str
+puts 'FIN Indicadores'
 
 
 #doc.save('Nuevo.docx')
