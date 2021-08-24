@@ -24,12 +24,15 @@ str = ""
 #pp cuerpo
 #valor = cuerpo
 #puts cuerpo
+doc = Docx::Document.open('test.docx')
 
 str += "\n"
 str += "INDICADORES ECONOMICOS" + "\n"
 str += "" + "\n"
-str += "DIA " + cuerpo["fecha"].slice(0..9) + "\n"
-str += "--------------------------------" + "\n"
+str = ""
+str = cuerpo["fecha"].slice(0..9).to_s
+puts str
+doc.bookmarks['fecha'].insert_after(str)
 
 cuerpo.each do |key,valor|
     if key != "version" && key != "autor" && key != "fecha"
@@ -39,8 +42,5 @@ end
 
 puts str
 
-doc = Docx::Document.open('test.docx')
 
-doc.bookmarks['book1'].insert_after(str)
-
-doc.save('Nuevo.docx')
+#doc.save('Nuevo.docx')
