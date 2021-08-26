@@ -9,7 +9,7 @@ anchomayor = adorno.length * lin
 
 for i in (0..lin -1) do
     espacio = (anchomayor/2) - ((adorno.length * (lin-i))/2)
-#    print "Lin = #{lin} I = #{i} espacio #{espacio}"
+    print "Lin = #{lin} I = #{i} espacio #{espacio}"
     espacio.times { print " "}
     (lin - i).times { print adorno}
     puts
