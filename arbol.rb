@@ -1,14 +1,16 @@
 
 def dibujarArbol (adorno,lin,inv)
+    anchomayor = adorno.length * lin
     for i in (1..lin) do
         if inv
             ind = (lin - i) +1
-            espacio = (lin) - ((adorno.length * (lin-i))/2)
+            espacio = i
         else
             ind = i
-            espacio = (lin) - (((adorno.length) * i)/2)
+            espacio = lin-i
+            #espacio = (anchomayor) - (((adorno.length) * i)/2)
         end
-        (lin-ind).times { print " "}
+        (espacio).times { print " "}
         ind.times { print "#{adorno} "}
         puts
     end
@@ -21,5 +23,5 @@ print "Desea el arbol invertido? (S para Si)"
 strinv = gets.chomp
 puts
 
-dibujarArbol '*',lin,(strinv=="S") 
+dibujarArbol '*',lin,((strinv=="S" || strinv =='s' )) 
 
