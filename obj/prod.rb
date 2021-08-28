@@ -39,27 +39,48 @@ class Listaprod
     end
 
     def listado
+        puts "--------------------------------------------------------------------------------------"
+        puts "LISTADO DE PRODUCTOS"
+        puts "--------------------------------------------------------------------------------------"
         @lista.each {|prod| puts prod.descr()}
-        puts "Total de #{@totalProds.to_s} Productos"
+        puts "--------------------------------------------------------------------------------------"
+        puts "Total de #{totalProds.to_s} Productos"
+        puts "--------------------------------------------------------------------------------------"
     end
 
     def totalProds
-        return @lista.length - 1
+        return @lista.length 
     end
 
 end
 
-prods = Listaprod.new
+def ingrProd
+    print "Ingrese el código del Producto : "
+    strop = gets.chomp
+    cod = strop.to_i
+    print "Ingrese el nombre del Producto : "
+    strop = gets.chomp
+    nom = strop.to_s
+    print "Ingrese el color del Producto : "
+    strop = gets.chomp
+    col = strop.to_s
+    print "Ingrese el precio del Producto : "
+    strop = gets.chomp
+    pre = strop.to_i
+    $prods.agregarProducto(cod,nom,col,pre)
+end 
 
-prods.agregarProducto(1,"Polera","Blanca",4990)
-prods.agregarProducto(2,"Polera","Azul",4990)
-prods.agregarProducto(3,"Chaleco","Blanca",12490)
-prods.agregarProducto(4,"Pantalon","Negro",12990)
-prods.agregarProducto(5,"Camisa","Verde",6990)
-prods.agregarProducto(6,"Blusa","Beige",3990)
-prods.agregarProducto(7,"Falda","Roja",9990)
+$prods = Listaprod.new
 
-prods.listado
+$prods.agregarProducto(1,"Polera","Blanca",4990)
+$prods.agregarProducto(2,"Polera","Azul",4990)
+$prods.agregarProducto(3,"Chaleco","Blanca",12490)
+$prods.agregarProducto(4,"Pantalon","Negro",12990)
+$prods.agregarProducto(5,"Camisa","Verde",6990)
+$prods.agregarProducto(6,"Blusa","Beige",3990)
+$prods.agregarProducto(7,"Falda","Roja",9990)
+
+#$prods.listado
 
 opcion = ""
 
@@ -80,12 +101,12 @@ while opcion != "S" || opcion != "0" || opcion != "s"
 
     case opcion
 
-    when "1" || "a" || "A"
-        puts "aquí se solicitará ingresar un producto"
-    when "2" || "l" || "L"
-        prods.listado
-    when "0" || "s" || "S"
-    
+    when "1" 
+        ingrProd
+    when "2" 
+        $prods.listado
+    when "0"
+        break
     else
         puts "ingrese una opción correcta"
     end
