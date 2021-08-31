@@ -38,6 +38,22 @@ class Listaprod
         @lista.push(Producto.new(cod,nom,col,pre))
     end
 
+    def agregarProducto
+        print "Ingrese el código del Producto : "
+        strop = gets.chomp
+        cod = strop.to_i
+        print "Ingrese el nombre del Producto : "
+        strop = gets.chomp
+        nom = strop.to_s
+        print "Ingrese el color del Producto : "
+        strop = gets.chomp
+        col = strop.to_s
+        print "Ingrese el precio del Producto : "
+        strop = gets.chomp
+        pre = strop.to_i
+        agregarProducto(cod,nom,col,pre)
+    end 
+    
     def listado
         puts "--------------------------------------------------------------------------------------"
         puts "LISTADO DE PRODUCTOS"
@@ -54,31 +70,15 @@ class Listaprod
 
 end
 
-def ingrProd
-    print "Ingrese el código del Producto : "
-    strop = gets.chomp
-    cod = strop.to_i
-    print "Ingrese el nombre del Producto : "
-    strop = gets.chomp
-    nom = strop.to_s
-    print "Ingrese el color del Producto : "
-    strop = gets.chomp
-    col = strop.to_s
-    print "Ingrese el precio del Producto : "
-    strop = gets.chomp
-    pre = strop.to_i
-    $prods.agregarProducto(cod,nom,col,pre)
-end 
+prods = Listaprod.new
 
-$prods = Listaprod.new
-
-$prods.agregarProducto(1,"Polera","Blanca",4990)
-$prods.agregarProducto(2,"Polera","Azul",4990)
-$prods.agregarProducto(3,"Chaleco","Blanca",12490)
-$prods.agregarProducto(4,"Pantalon","Negro",12990)
-$prods.agregarProducto(5,"Camisa","Verde",6990)
-$prods.agregarProducto(6,"Blusa","Beige",3990)
-$prods.agregarProducto(7,"Falda","Roja",9990)
+prods.agregarProducto(1,"Polera","Blanca",4990)
+prods.agregarProducto(2,"Polera","Azul",4990)
+prods.agregarProducto(3,"Chaleco","Blanca",12490)
+prods.agregarProducto(4,"Pantalon","Negro",12990)
+prods.agregarProducto(5,"Camisa","Verde",6990)
+prods.agregarProducto(6,"Blusa","Beige",3990)
+prods.agregarProducto(7,"Falda","Roja",9990)
 
 #$prods.listado
 
