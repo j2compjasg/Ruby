@@ -1,19 +1,117 @@
-class Estados
-    def initialize (id,nombre)
-        @id = id
-        @nombre = nombre
+require 'rails'
+require 'csv'
+
+class Producto
+    def initialize 
+        @codigo = ""
+        @prod = ""
+        @color = ""
+        @tipo = ""
+        @envase = ""
+        @cantenv = 0
+        @precio = 0
+        @stock = 0
     end
-    def getId
-        @id
+
+    def gCod
+        @codigo
     end
-    def getNombre
-        @nombre
+
+    def sCod(valor)
+        @codigo = valor
     end
-    def setId(valor)
-        @id = valor
+
+    def gProd
+        @prod
     end
-    def setNombre(valor)
-        @nombre = valor
+
+    def sProd(valor)
+        @prod = valor
+    end
+
+    def gColor
+        @color
+    end
+
+    def sColor(valor)
+        @color = valor
+    end
+
+    def gTipo
+        @tipo
+    end
+
+    def sTipo(valor)
+        @tipo = valor
+    end
+
+    def gEnvase
+        @envase
+    end
+
+    def sEnvase(valor)
+        @envase = valor
+    end
+
+    def gCantenv
+        @cantenv
+    end
+
+    def sCantenv(valor)
+        @cantenv=valor
+    end
+    def gPrecio
+        @precio
+    end
+    def sPrecio(valor)
+        @precio = valor
+    end
+    def gStock
+        @stock
+    end
+    def sStock(valor)
+        @stock = valor
+    end
+end
+
+class Listaprod
+    def initialize
+        @list = Array.new
+    end
+
+    def cargarCsv
+
+
+        arch = 'D:\PFILES\productos.csv'
+        CSV.foreach(arch, :headers => :true) do |row|
+            pr = Producto.new()
+            pr.sCod(row[0])
+            pr.sProd(row[1].truncate(30,:separator => '..+'))
+            pr.sColor(row[2])
+            pr.sTipo(row[3])
+            pr.sEnvase(row[4])
+            pr.sCantenv(row[5])
+            pr.sPrecio(row[6])
+            pr.sStock(row[7])
+            #puts "#{pr.gCod} #{pr.gProd} #{pr.gPrecio}"
+            @list.push(pr)
+            #puts "#{row[0]} #{row[1]} #{row[2]} #{row[3]} #{row[4]} #{row[5]} #{row[6]} #{row[7]} " 
+        end       #Cargo el arreglo desde un CSV
+    end
+
+    def listado
+        @list.each do |p|
+            puts "#{p.gCod.ljust(15)} #{p.gProd.ljust(50)} $ #{format_number(p.gPrecio,0).rjust(8)} #{p.gStock.to_s.rjust(4)}"
+        end
+    end
+
+    def buscarProdxid(id)
+        @list.each do |p|
+            if p.gCod == id
+                return p
+                break
+            end
+        end
     end
 end
 
@@ -111,49 +209,48 @@ class Cliente
     end
 end
 
-class Productos
+class Listacli
     def initialize
-        list = Array.new
+        @list = Array.new
     end
 
-    def cargarCsv(archivo)
-        #Cargo el arreglo desde un CSV
+    def cargarCsv
+        require 'csv'
+
+        arch = 'D:\PFILES\productos.csv'
+        CSV.foreach(arch, :headers => :true) do |row|
+            g = Giro.new(1,row[2])
+            dir = Direccion.new(0,row[3],row[4],row[5],row[6],row[7],"N/A")
+            cl = Cliente.new(row[0],row[1],dir,g)
+            #puts "#{pr.gCod} #{pr.gProd} #{pr.gPrecio}"
+            @list.push(cl)
+            #puts "#{row[0]} #{row[1]} #{row[2]} #{row[3]} #{row[4]} #{row[5]} #{row[6]} #{row[7]} " 
+        end     
     end
 
-    def buscarProdxid(id)
-        list.each do |p|
-            if p.getId = id
-                return p
-                break
-            end
+    def listado
+        @list.each do |p|
+            puts "#{p.getRut.ljust(13)} #{p.getNombre.ljust(50)} "
         end
-    end if
+    end
 end
 
-
-class Producto
-
-    def initialize 
-        @codigo = ""
-        @nombre = ""
-        @precio = 0
-        @stock = 0
+class Estados
+    def initialize (id,nombre)
+        @id = id
+        @nombre = nombre
     end
-
-    def gcodigo
-        @codigo
+    def getId
+        @id
     end
-
-    def gnombre
-        @codigo
+    def getNombre
+        @nombre
     end
-
-    def gprecio
-        @precio
+    def setId(valor)
+        @id = valor
     end
-
-    def descr
-        return "#{@codigo.to_s.rjust(4)} #{@nombre.ljust(20)} #{@precio.to_s}"
+    def setNombre(valor)
+        @nombre = valor
     end
 end
 
@@ -164,10 +261,17 @@ class Detfactura
         @descr = ""
         @valor = 0
     end
+    def clonar(dtf)
+        @cant = dtf.getCant
+        @codpro = dtf.getCod
+        @descr = dtf.getDescr
+        @valor = dtf.getValor
+    end
     def setProd(cant,prod)
         @cant = cant
-        @descr = prod.getDescr
-        @valor = prod.getValor
+        @codpro = prod.gCod
+        @descr = prod.gProd
+        @valor = prod.gPrecio.to_i
     end
     def setLibre(cant,descr,vunit)
         @cant = cant
@@ -183,6 +287,9 @@ class Detfactura
     end
     def getValor
         @valor
+    end
+    def getCod
+        @codpro
     end
     def getSubt()
         return (@cant * @valor)
@@ -204,15 +311,17 @@ class Factura
     end
 
     def agregaDetalle(det)
-        @detalle.push (det)
+        df = Detfactura.new
+        df.clonar det
+        @detalle.push (df)
+        #puts " cant #{df.getCant} descr #{df.getDescr} valor #{df.getValor}" 
         calculaTotales
     end
 
     def calculaTotales
         totneto = 0
         @detalle.each do |det|
-            #puts " cant #{det["cant"]} descr #{det["descr"]} valor #{det["VUnit"]}" 
-            totneto += det["cant"] * det["VUnit"]
+            totneto += det.getCant * det.getValor
         end
         @neto = totneto
         @iva = totneto * 0.19
@@ -248,14 +357,14 @@ class Factura
         puts "─────────────────────────────────────────────────────────"
 
         @detalle.each do |det|
-            puts "#{det["cant"].to_s.rjust(6)} #{det["descr"].ljust(30)} $#{format_number(det["VUnit"],0).rjust(8)}" 
+            puts "#{det.getCant.to_s.rjust(5)} #{det.getDescr.ljust(30)} $#{format_number(det.getValor,0).rjust(8)}  $#{format_number(det.getSubt,0).rjust(8)}" 
         end
         puts "─────────────────────────────────────────────────────────"
-        print "Total Neto : $ ".rjust(40)
+        print "Total Neto : $ ".rjust(50)
         puts format_number(@neto.to_s,0).rjust(7)
-        print "IVA        : $ ".rjust(40)
+        print "IVA        : $ ".rjust(50)
         puts format_number(@iva.to_s,0).rjust(7)
-        print "Total      : $ ".rjust(40)
+        print "Total      : $ ".rjust(50)
         puts format_number(@total.to_s,0).rjust(7)
         puts "─────────────────────────────────────────────────────────"
     end        
@@ -290,6 +399,13 @@ end
 #-------------------------------
 
 #Se establecen los datos del emisor de Facturas
+system("cls")
+lp = Listaprod.new()
+lp.cargarCsv
+
+lc = Listacli.new
+lc.cargarCsv
+
 
 estdefault = Estados.new(0,"Pendiente")
 estcancelado = Estados.new(1,"Cancelado")
@@ -306,15 +422,33 @@ cl = Cliente.new("12884231-4","Javier Salgado",dvta,gvta)
 
 fac = Factura.new(1,"30-08-2021",emi,cl,estdefault)
 
-fac.agregaDetalle(10,"Super 8",100)
-fac.agregaDetalle(5,"Berlin pequeño",500)
-fac.agregaDetalle(7,"Papas Fritas Lays 170 Gr",1100)
-fac.agregaDetalle(12,"Coca Cola 600cc",800)
+deta = Detfactura.new()
+deta.setLibre(10,"Super 8", 100)
+fac.agregaDetalle(deta)
 
+#deta = Detfactura.new()
+deta.setLibre(5,"Berlin pequeño",500)
+fac.agregaDetalle(deta)
+#deta = Detfactura.new()
 
+deta.setLibre(7,"Papas Fritas Lays 170 Gr",1100)
+fac.agregaDetalle(deta)
+
+#deta = Detfactura.new()
+deta.setLibre(12,"Coca Cola 600cc",800)
+fac.agregaDetalle(deta)
+
+#lp.listado
+
+#lc.listado
+pr = Producto.new
+pr = lp.buscarProdxid('4807204917242')
+#puts pr.gProd
+deta.setProd(1,pr)
+fac.agregaDetalle(deta)
 
 fac.imprimeFactura
 
-df = Detfactura.new()
+#df = Detfactura.new()
 
 
