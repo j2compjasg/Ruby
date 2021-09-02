@@ -60,29 +60,34 @@ class Producto
     def sCantenv(valor)
         @cantenv=valor
     end
+
     def gPrecio
         @precio
     end
+
     def sPrecio(valor)
         @precio = valor
     end
+
     def gStock
         @stock
     end
+
     def sStock(valor)
         @stock = valor
     end
 end
 
 class Listaprod
+    
     def initialize
         @list = Array.new
+        cargarCsv
     end
 
     def cargarCsv
-
-
-        arch = 'D:\PFILES\productos.csv'
+        arch = 'facturacion\productos.csv'
+        arch = File.expand_path('productos.csv')
         CSV.foreach(arch, :headers => :true) do |row|
             pr = Producto.new()
             pr.sCod(row[0])

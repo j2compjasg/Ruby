@@ -95,12 +95,13 @@ end
 class Listacli
     def initialize
         @list = Array.new
+        cargarCsv
     end
 
     def cargarCsv
         require 'csv'
-
-        arch = 'D:\PFILES\productos.csv'
+        arch = File.expand_path('clientes.csv')
+        #arch = 'facturacion\clientes.csv'
         CSV.foreach(arch, :headers => :true) do |row|
             g = Giro.new(1,row[2])
             dir = Direccion.new(0,row[3],row[4],row[5],row[6],row[7],"N/A")

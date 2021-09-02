@@ -80,9 +80,8 @@ class Listaprod
     end
 
     def cargarCsv
-
-
-        arch = 'D:\PFILES\productos.csv'
+        #arch = File.expand_path('facturacion/productos.csv')
+        arch = 'facturacion\productos.csv'
         CSV.foreach(arch, :headers => :true) do |row|
             pr = Producto.new()
             pr.sCod(row[0])
