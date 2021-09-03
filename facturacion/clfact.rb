@@ -113,7 +113,7 @@ class Factura
         puts "────────────────────────────────"
         puts "RUT Cliente : #{@cliente.getRut}"
         puts "Razón Social: #{@cliente.getNombre}"
-        puts "Dirección   : #{@cliente.getDir.getDir} "
+        #puts "Dirección   : #{@cliente.getDir.getDir} "
         puts "Giro        : #{@cliente.getGiro.getNombre}"
         puts "─────────────────────────────────────────────────────────"
         puts "DETALLE DE FACTURA"

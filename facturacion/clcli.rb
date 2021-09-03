@@ -1,5 +1,9 @@
 class Giro
-    def initialize (id,nomgiro)
+    def self.initialize
+        @id = 0
+        @nombre = ''
+    end
+    def cargar(id,nomgiro)
         @id = id
         @nombre = nomgiro
     end
@@ -19,7 +23,17 @@ end
 
 class Direccion
 
-    def initialize (id,calle,num,dep,villa,comuna,region)
+    def self.initialize
+        @id = 0
+        @calle = ''
+        @num = ''
+        @dep = ''
+        @villa = ''
+        @comuna = ''
+        @region = ''
+    end
+
+    def cargar(id,calle,num,dep,villa,comuna,region)
         @id = id
         @calle = calle
         @num = num
@@ -68,27 +82,51 @@ class Direccion
 end
 
 class Cliente
-    def initialize (rut,razsoc,dir,giro)
+
+    def self.initialize
+        @rut = ''
+        @razsoc = ''
+        @dir = dir.new
+        @giro = giro.new
+    end
+
+    def cargar(rut,razsoc,dir,giro)
         @rut = rut
         @razsoc = razsoc
-        @dir = dir
-        @giro = giro
+        @dir.cargar(dir.getId, dir.getCalle, dir.getNum, dir.getDep, dir.getVilla, dir.getComuna, dir.getRegion)
+        @giro.cargar(giro.getid, giro.getNombre)
     end
 
     def getRut
         @rut
     end
 
+    def setRut(valor)
+        @rut = valor
+    end
+
     def getNombre
         @razsoc
+    end
+
+    def setNombre(valor)
+        @razsoc = valor
     end
 
     def getDir
         @dir
     end
 
+    def setDir(dir)
+        @dir = dir
+    end 
+
     def getGiro
         @giro
+    end
+
+    def setGiro(valor)
+        @giro = valor
     end
 end
 
@@ -103,13 +141,28 @@ class Listacli
         arch = File.expand_path('clientes.csv')
         #arch = 'facturacion\clientes.csv'
         CSV.foreach(arch, :headers => :true) do |row|
-            g = Giro.new(1,row[2])
-            dir = Direccion.new(0,row[3],row[4],row[5],row[6],row[7],"N/A")
-            cl = Cliente.new(row[0],row[1],dir,g)
+            gi = Giro.new
+            gi.cargar(1,row[2])
+            di = Direccion.new
+            di.cargar(0,row[3],row[4],row[5],row[6],row[7],"N/A")
+            cl = Cliente.new
+            puts "#{gi.getId} #{gi.getNombre}"
+            #cl.cargar(row[0],row[1],di,gi)
+            
             #puts "#{pr.gCod} #{pr.gProd} #{pr.gPrecio}"
             @list.push(cl)
             #puts "#{row[0]} #{row[1]} #{row[2]} #{row[3]} #{row[4]} #{row[5]} #{row[6]} #{row[7]} " 
         end     
+    end
+
+    def buscarRut(rut)
+        @list.each do |cl|
+            if cl.getRut == rut
+                return cl
+                break
+            end
+        end
+        
     end
 
     def listado
